@@ -1,5 +1,9 @@
+from django.conf import settings
+from extras.plugins import PluginMenuItem
 from django.shortcuts import redirect
 from django.urls import reverse
+
+plugin_settings = settings.PLUGINS_CONFIG["netbox_old_search"]
 
 
 class SearchRedirectMiddleware:
@@ -9,7 +13,7 @@ class SearchRedirectMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        if request.path.startswith("/search/") and request.GET:
+        if plugin_settings.get("replace_search") and request.path.startswith("/search/"):
             redirect_url = reverse("plugins:netbox_old_search:customsearch")
 
             return redirect(f"{redirect_url}?{request.GET.urlencode()}")

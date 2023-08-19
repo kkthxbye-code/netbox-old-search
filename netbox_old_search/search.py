@@ -2,8 +2,6 @@ import circuits.filtersets
 import circuits.tables
 import dcim.filtersets
 import dcim.tables
-import extras.filtersets
-import extras.tables
 import ipam.filtersets
 import ipam.tables
 import tenancy.filtersets
@@ -27,7 +25,6 @@ from dcim.models import (
     Site,
     VirtualChassis,
 )
-from extras.models import JournalEntry
 from ipam.models import Aggregate, ASN, IPAddress, Prefix, Service, VLAN, VRF
 from tenancy.models import Contact, Tenant, ContactAssignment
 from utilities.utils import count_related
@@ -36,7 +33,7 @@ from virtualization.models import Cluster, VirtualMachine
 
 CIRCUIT_TYPES = {
     "provider": {
-        "queryset": Provider.objects.annotate(count_circuits=count_related(Circuit, "provider")),
+        "queryset": Provider.objects.prefetch_related("circuits", "accounts").annotate(count_circuits=count_related(Circuit, "provider")),
         "filterset": circuits.filtersets.ProviderFilterSet,
         "table": circuits.tables.ProviderTable,
         "url": "circuits:provider_list",
@@ -242,15 +239,6 @@ WIRELESS_TYPES = {
     },
 }
 
-JOURNAL_TYPES = {
-    "journalentry": {
-        "queryset": JournalEntry.objects.prefetch_related("assigned_object", "created_by"),
-        "filterset": extras.filtersets.JournalEntryFilterSet,
-        "table": extras.tables.JournalEntryTable,
-        "url": "extras:journalentry_list",
-    },
-}
-
 SEARCH_TYPE_HIERARCHY = {
     "Circuits": CIRCUIT_TYPES,
     "DCIM": DCIM_TYPES,
@@ -258,7 +246,6 @@ SEARCH_TYPE_HIERARCHY = {
     "Tenancy": TENANCY_TYPES,
     "Virtualization": VIRTUALIZATION_TYPES,
     "Wireless": WIRELESS_TYPES,
-    "Journal": JOURNAL_TYPES,
 }
 
 
