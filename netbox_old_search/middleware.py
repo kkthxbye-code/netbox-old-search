@@ -3,7 +3,7 @@ from extras.plugins import PluginMenuItem
 from django.shortcuts import redirect
 from django.urls import reverse
 
-plugin_settings = settings.PLUGINS_CONFIG["netbox_old_search"]
+plugin_settings = settings.PLUGINS_CONFIG.get("netbox_old_search", {})
 
 
 class SearchRedirectMiddleware:
