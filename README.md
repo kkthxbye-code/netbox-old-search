@@ -1,4 +1,4 @@
-# netbox-old-search ![PyPI](https://img.shields.io/pypi/v/netbox_old_search)
+# netbox-old-search [![PyPI](https://img.shields.io/pypi/v/netbox_old_search)](https://pypi.org/project/netbox-old-search/#description)
 
 This plugin brings back the old global search method that was used in netbox prior to NetBox v3.4.0. The plugin is intended for users that prefer the old search method, or prefers to have the option to use both.
 
