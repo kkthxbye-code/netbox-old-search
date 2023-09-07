@@ -29,10 +29,21 @@ from dcim.models import (
 )
 from extras.models import JournalEntry
 from ipam.models import Aggregate, ASN, IPAddress, Prefix, Service, VLAN, VRF
+from netbox.settings import VERSION
 from tenancy.models import Contact, Tenant, ContactAssignment
 from utilities.utils import count_related
 from wireless.models import WirelessLAN, WirelessLink
 from virtualization.models import Cluster, VirtualMachine
+
+
+NB_VERSION = [int(n) for n in VERSION.split('-')[0].split('.')]
+
+# Netbox 3.6.0 implemented cached counters for VC's.
+VC_QUERY = None
+if NB_VERSION >= [3,6,0]:
+    VC_QUERY = VirtualChassis.objects.prefetch_related("master")
+else:
+    VC_QUERY = VirtualChassis.objects.prefetch_related("master").annotate(member_count=count_related(Device, "virtual_chassis"))
 
 CIRCUIT_TYPES = {
     "provider": {
@@ -95,7 +106,6 @@ DCIM_TYPES = {
     "device": {
         "queryset": Device.objects.prefetch_related(
             "device_type__manufacturer",
-            "device_role",
             "tenant",
             "tenant__group",
             "site",
@@ -124,7 +134,7 @@ DCIM_TYPES = {
         "url": "dcim:module_list",
     },
     "virtualchassis": {
-        "queryset": VirtualChassis.objects.prefetch_related("master").annotate(member_count=count_related(Device, "virtual_chassis")),
+        "queryset": VC_QUERY,
         "filterset": dcim.filtersets.VirtualChassisFilterSet,
         "table": dcim.tables.VirtualChassisTable,
         "url": "dcim:virtualchassis_list",
