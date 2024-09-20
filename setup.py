@@ -11,7 +11,7 @@ setup(
     author_email="festll234@gmail.com",
     python_requires=">=3.8",
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Natural Language :: English",
         "Programming Language :: Python :: 3",
@@ -29,6 +29,6 @@ setup(
     name="netbox-old-search",
     packages=find_packages(include=["netbox_old_search", "netbox_old_search.*"]),
     url="https://github.com/kkthxbye-code/netbox-old-search",
-    version="0.1.3",
+    version="1.0.0",
     zip_safe=False,
 )
