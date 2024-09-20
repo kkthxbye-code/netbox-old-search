@@ -27,7 +27,7 @@ setup(
     include_package_data=True,
     keywords=["netbox", "netbox-plugin"],
     name="netbox-old-search",
-    packages=find_packages(include=['netbox_old_search', 'netbox_old_search.*']),
+    packages=find_packages(include=["netbox_old_search", "netbox_old_search.*"]),
     url="https://github.com/kkthxbye-code/netbox-old-search",
     version="0.1.3",
     zip_safe=False,

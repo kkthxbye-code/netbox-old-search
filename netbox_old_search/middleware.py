@@ -1,5 +1,4 @@
 from django.conf import settings
-from extras.plugins import PluginMenuItem
 from django.shortcuts import redirect
 from django.urls import reverse
 

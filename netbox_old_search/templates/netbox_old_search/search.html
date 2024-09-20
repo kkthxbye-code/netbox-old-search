@@ -15,7 +15,7 @@
   </ul>
 {% endblock tabs %}
 
-{% block content-wrapper %}
+{% block content %}
   <div class="tab-content">
     {% if request.GET.q %}
         {% if results %}
@@ -85,4 +85,4 @@
         </div>
     {% endif %}
   </div>
-{% endblock content-wrapper %}
+{% endblock content %}

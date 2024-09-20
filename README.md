@@ -4,8 +4,10 @@ This plugin brings back the old global search method that was used in netbox pri
 
 ## Version Compatibility
 
-Should work with all current versions of NetBox >= v3.4.0.
-
+| Netbox        | Plugin   |
+|---------------|----------|
+| NetBox < 4.0  | <= 0.1.3 |
+| NetBox >= 4.0 | >= 0.2.0 |
 
 ## Installing
 

@@ -1,7 +1,6 @@
 from django import forms
 
 from .search import SEARCH_TYPE_HIERARCHY
-from utilities.forms import BootstrapMixin
 
 
 def build_search_choices():
@@ -34,7 +33,7 @@ def build_options():
     return options
 
 
-class SearchForm(BootstrapMixin, forms.Form):
+class SearchForm(forms.Form):
     q = forms.CharField(label="Search")
     obj_type = forms.ChoiceField(choices=OBJ_TYPE_CHOICES, required=False, label="Type")
     options = build_options()

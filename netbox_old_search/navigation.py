@@ -1,5 +1,5 @@
 from django.conf import settings
-from extras.plugins import PluginMenuItem
+from netbox.plugins import PluginMenuItem
 
 plugin_settings = settings.PLUGINS_CONFIG.get("netbox_old_search", {})
 

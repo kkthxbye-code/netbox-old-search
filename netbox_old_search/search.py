@@ -31,16 +31,16 @@ from extras.models import JournalEntry
 from ipam.models import Aggregate, ASN, IPAddress, Prefix, Service, VLAN, VRF
 from netbox.settings import VERSION
 from tenancy.models import Contact, Tenant, ContactAssignment
-from utilities.utils import count_related
 from wireless.models import WirelessLAN, WirelessLink
 from virtualization.models import Cluster, VirtualMachine
+from utilities.query import count_related
 
 
-NB_VERSION = [int(n) for n in VERSION.split('-')[0].split('.')]
+NB_VERSION = [int(n) for n in VERSION.split("-")[0].split(".")]
 
 # Netbox 3.6.0 implemented cached counters for VC's.
 VC_QUERY = None
-if NB_VERSION >= [3,6,0]:
+if NB_VERSION >= [3, 6, 0]:
     VC_QUERY = VirtualChassis.objects.prefetch_related("master")
 else:
     VC_QUERY = VirtualChassis.objects.prefetch_related("master").annotate(member_count=count_related(Device, "virtual_chassis"))
@@ -74,7 +74,9 @@ DCIM_TYPES = {
         "url": "dcim:site_list",
     },
     "rack": {
-        "queryset": Rack.objects.prefetch_related("site", "location", "tenant", "tenant__group", "role").annotate(device_count=count_related(Device, "rack")),
+        "queryset": Rack.objects.prefetch_related("site", "location", "tenant", "tenant__group", "role").annotate(
+            device_count=count_related(Device, "rack")
+        ),
         "filterset": dcim.filtersets.RackFilterSet,
         "table": dcim.tables.RackTable,
         "url": "dcim:rack_list",
@@ -87,7 +89,13 @@ DCIM_TYPES = {
     },
     "location": {
         "queryset": Location.objects.add_related_count(
-            Location.objects.add_related_count(Location.objects.all(), Device, "location", "device_count", cumulative=True),
+            Location.objects.add_related_count(
+                Location.objects.all(),
+                Device,
+                "location",
+                "device_count",
+                cumulative=True,
+            ),
             Rack,
             "location",
             "rack_count",
@@ -206,7 +214,9 @@ TENANCY_TYPES = {
         "url": "tenancy:tenant_list",
     },
     "contact": {
-        "queryset": Contact.objects.prefetch_related("group", "assignments").annotate(assignment_count=count_related(ContactAssignment, "contact")),
+        "queryset": Contact.objects.prefetch_related("group", "assignments").annotate(
+            assignment_count=count_related(ContactAssignment, "contact")
+        ),
         "filterset": tenancy.filtersets.ContactFilterSet,
         "table": tenancy.tables.ContactTable,
         "url": "tenancy:contact_list",
@@ -216,7 +226,8 @@ TENANCY_TYPES = {
 VIRTUALIZATION_TYPES = {
     "cluster": {
         "queryset": Cluster.objects.prefetch_related("type", "group").annotate(
-            device_count=count_related(Device, "cluster"), vm_count=count_related(VirtualMachine, "cluster")
+            device_count=count_related(Device, "cluster"),
+            vm_count=count_related(VirtualMachine, "cluster"),
         ),
         "filterset": virtualization.filtersets.ClusterFilterSet,
         "table": virtualization.tables.ClusterTable,
@@ -239,7 +250,9 @@ VIRTUALIZATION_TYPES = {
 
 WIRELESS_TYPES = {
     "wirelesslan": {
-        "queryset": WirelessLAN.objects.prefetch_related("group", "vlan").annotate(interface_count=count_related(Interface, "wireless_lans")),
+        "queryset": WirelessLAN.objects.prefetch_related("group", "vlan").annotate(
+            interface_count=count_related(Interface, "wireless_lans")
+        ),
         "filterset": wireless.filtersets.WirelessLANFilterSet,
         "table": wireless.tables.WirelessLANTable,
         "url": "wireless:wirelesslan_list",
@@ -253,11 +266,11 @@ WIRELESS_TYPES = {
 }
 
 JOURNAL_TYPES = {
-    'journalentry': {
-        'queryset': JournalEntry.objects.prefetch_related('assigned_object', 'created_by'),
-        'filterset': extras.filtersets.JournalEntryFilterSet,
-        'table': extras.tables.JournalEntryTable,
-        'url': 'extras:journalentry_list',
+    "journalentry": {
+        "queryset": JournalEntry.objects.prefetch_related("assigned_object", "created_by"),
+        "filterset": extras.filtersets.JournalEntryFilterSet,
+        "table": extras.tables.JournalEntryTable,
+        "url": "extras:journalentry_list",
     },
 }
 
@@ -268,7 +281,7 @@ SEARCH_TYPE_HIERARCHY = {
     "Tenancy": TENANCY_TYPES,
     "Virtualization": VIRTUALIZATION_TYPES,
     "Wireless": WIRELESS_TYPES,
-    'Journal': JOURNAL_TYPES,
+    "Journal": JOURNAL_TYPES,
 }
 
 
