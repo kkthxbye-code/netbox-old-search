@@ -8,6 +8,7 @@ This plugin brings back the old global search method that was used in netbox pri
 |---------------|----------|
 | NetBox < 4.0  | <= 0.1.3 |
 | NetBox >= 4.0 | >= 1.0.0 |
+| NetBox >= 4.2  | >= 1.1.0 |
 
 ## Installing
 
