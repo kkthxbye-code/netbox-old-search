@@ -175,7 +175,7 @@ IPAM_TYPES = {
         "url": "ipam:aggregate_list",
     },
     "prefix": {
-        "queryset": Prefix.objects.prefetch_related("site", "vrf__tenant", "tenant", "tenant__group", "vlan", "role"),
+        "queryset": Prefix.objects.prefetch_related("scope", "vrf__tenant", "tenant", "tenant__group", "vlan", "role"),
         "filterset": ipam.filtersets.PrefixFilterSet,
         "table": ipam.tables.PrefixTable,
         "url": "ipam:prefix_list",
